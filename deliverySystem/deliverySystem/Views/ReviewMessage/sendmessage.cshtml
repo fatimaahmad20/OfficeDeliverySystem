@@ -1,0 +1,38 @@
+﻿@model deliverySystem.Models.Message
+@{
+    ViewBag.Title = "Send Message";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="heading-breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Provide Feedback</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("SendMessage", "ReviewMessage", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+<div class="col-md-7">
+
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Sender, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.TextAreaFor(m => m.Subject, new { @class = "form-control" })
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</div>
+}
+

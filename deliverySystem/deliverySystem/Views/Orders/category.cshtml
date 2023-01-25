@@ -1,0 +1,45 @@
+﻿@model IEnumerable<deliverySystem.Models.Category>
+@{
+
+    ViewBag.Title = "category";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+
+<div id="heading-breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Choose your Menu</h1>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@foreach (var menu in Model)
+{
+
+    @*<div class="row products">*@
+    <div class="col-md-3 col-sm-4">
+        <div class="product">
+            <div class="text-center">
+                <h3>
+                    @menu.name
+                </h3>
+            </div>
+            <div class="image">
+
+                <img src=@menu.Image style="width:300px; height:300px;" />
+            </div>
+
+
+            <a class="btn btn-block bg-primary" href="/Order/viewitem/@menu.Id" style="width:450px; ">
+                go check
+            </a>
+
+        </div>
+    </div>
+}

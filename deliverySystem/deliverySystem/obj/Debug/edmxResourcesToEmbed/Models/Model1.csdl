@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OfficeDeliverySystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="OfficeDeliverySystemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="OfficeDeliverySystemModel.User" />
+    <EntitySet Name="Categories" EntityType="OfficeDeliverySystemModel.Category" />
+    <EntitySet Name="Messages" EntityType="OfficeDeliverySystemModel.Message" />
+    <EntitySet Name="Items" EntityType="OfficeDeliverySystemModel.Item" />
+    <AssociationSet Name="FK_Item_Category" Association="OfficeDeliverySystemModel.FK_Item_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <EntitySet Name="Permissions" EntityType="OfficeDeliverySystemModel.Permission" />
+    <EntitySet Name="Roles" EntityType="OfficeDeliverySystemModel.Role" />
+    <EntitySet Name="Carts" EntityType="OfficeDeliverySystemModel.Cart" />
+    <AssociationSet Name="FK_Cart_Item" Association="OfficeDeliverySystemModel.FK_Cart_Item">
+      <End Role="Item" EntitySet="Items" />
+      <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
+    <AssociationSet Name="UserRole" Association="OfficeDeliverySystemModel.UserRole">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Role" EntitySet="Roles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Birthdate" Type="Int32" />
+    <Property Name="Office" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Floor" Type="Int32" />
+    <Property Name="Department" Type="String" Nullable="false" />
+    <Property Name="Block" Type="Int32" />
+    <Property Name="Email" Type="String" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="OfficeDeliverySystemModel.UserRole" FromRole="User" ToRole="Role" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="Item" Relationship="OfficeDeliverySystemModel.FK_Item_Category" FromRole="Category" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="subject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Time" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="price" Type="Int32" />
+    <Property Name="categoryId" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="OfficeDeliverySystemModel.FK_Item_Category" FromRole="Item" ToRole="Category" />
+    <NavigationProperty Name="Carts" Relationship="OfficeDeliverySystemModel.FK_Cart_Item" FromRole="Item" ToRole="Cart" />
+  </EntityType>
+  <Association Name="FK_Item_Category">
+    <End Type="OfficeDeliverySystemModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="OfficeDeliverySystemModel.Item" Role="Item" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="categoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Permission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="User" Relationship="OfficeDeliverySystemModel.UserRole" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="ItemId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Item" Relationship="OfficeDeliverySystemModel.FK_Cart_Item" FromRole="Cart" ToRole="Item" />
+  </EntityType>
+  <Association Name="FK_Cart_Item">
+    <End Type="OfficeDeliverySystemModel.Item" Role="Item" Multiplicity="1" />
+    <End Type="OfficeDeliverySystemModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserRole">
+    <End Type="OfficeDeliverySystemModel.User" Role="User" Multiplicity="*" />
+    <End Type="OfficeDeliverySystemModel.Role" Role="Role" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

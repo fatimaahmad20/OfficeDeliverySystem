@@ -1,0 +1,24 @@
+﻿@model deliverySystem.Models.User
+@{
+    ViewBag.Title = "details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detials</h2>
+
+<h2>@Model.FirstName</h2>
+<h2>@Model.LastName</h2>
+<ul>
+    <li>Role: @Model.Role</li>
+    <li>Birthdate: @Model.Birthdate</li>
+    <li>Department: @Model.Department</li>
+    <li>Block: @Model.Block</li>
+    <li>Floor: @Model.Floor</li>
+    <li>Office: @Model.Office</li>
+    <li>Category: @Model.Category</li>
+</ul>
+
+
+<div>
+    @Html.ActionLink("Back to List", "usersList")
+</div>

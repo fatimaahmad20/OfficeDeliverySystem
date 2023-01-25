@@ -1,0 +1,21 @@
+﻿@model  IEnumerable<deliverySystem.Models.Item>
+
+@{
+    ViewBag.Title = "viewitem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between">
+    @foreach (var item in Model)
+    {
+        <form action="" method="post">
+            <div>
+                <img src="@item.image" />
+                <p>price: @item.price</p>
+                <p> @item.name</p>
+                <label for="qu">quantity</label>
+                <input type="range" id="qu" min="1" max="5" />
+            </div>
+            <input type="submit" value="submit" />
+        </form>
+    }
+</div>

@@ -1,0 +1,57 @@
+﻿@model deliverySystem.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Order Details</h2>
+
+<h2></h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderItem in Model.Items)
+        {
+            <tr>
+                <td>@orderItem.Item.Name</td>
+                <td>@orderItem.Item.Category</td>
+                <td>@orderItem.Quantity</td>
+                <td>@orderItem.Item.Price</td>
+                <td>@(orderItem.Item.Price * orderItem.Quantity)</td>
+            </tr>
+        }
+    </tbody>
+
+
+    @{var sum = 0.0;}
+
+    @foreach (var item in Model.Items)
+    {
+        sum += item.Item.Price;
+    }
+
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Total</b></td>
+            <td>@sum</td>
+        </tr>
+    </tfoot>
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "orderList")
+</div>

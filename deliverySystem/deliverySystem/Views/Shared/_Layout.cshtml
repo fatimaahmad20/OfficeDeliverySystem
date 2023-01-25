@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+<link href="~/Content/nav.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+ 
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+
+        <div class="container px-4 px-lg-5">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target=".navbar-collapse"  data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @Html.ActionLink("Office Delivery System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                @if (Request.IsAuthenticated)
+                {
+                <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/Users/usersList">Users</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Items/itemslist">Items</a></li>
+                    }
+                    @if (!User.IsInRole("DeliveryMan"))
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/Orders/makeOrder">Make Order</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Orders/myOrder">My Order</a></li>
+                    }
+                        <li class="nav-item"><a class="nav-link" href="/Orders/orderlist">Orders</a></li>
+                        
+                    @if (!User.IsInRole("DeliveryMan"))
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/ReviewMessage/MessageList">Reviews</a></li>
+                        
+                    }
+                </ul>
+                }
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

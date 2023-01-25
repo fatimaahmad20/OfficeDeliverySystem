@@ -1,0 +1,31 @@
+﻿@model deliverySystem.Models.User
+@{
+    ViewBag.Title = "admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>detials</h2>
+
+<h2>@Model.Fname</h2>
+<h2>@Model.Lname</h2>
+<ul>
+    <li>birthdate: @Model.Birthdate</li>
+    <li>Block: @Model.block</li>
+    <li>floor: @Model.floor</li>
+    <li>office: @Model.office</li>
+</ul>
+
+<div class="d-flex flex-column">
+    <a class="btn btn-block bg-primary" href="/Order/makeorder/@Model.Id" style="width:450px; ">
+        Make Order
+    </a>
+
+
+    <a class="btn btn-block bg-primary" href="/Order/makeorder/@Model.Id" style="width:450px; ">
+        view users
+    </a>
+
+    <a class="btn btn-block bg-primary" href="/ReviewMessage/makeorder/@Model.Id" style="width:450px; ">
+        view reviews
+    </a>
+</div>

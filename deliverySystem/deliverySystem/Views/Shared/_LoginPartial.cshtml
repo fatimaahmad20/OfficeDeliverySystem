@@ -1,0 +1,23 @@
+﻿<link href="~/Content/nav.css" rel="stylesheet" />
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOut", "Auth", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="navbar-nav ms-auto my-2 my-lg-0">
+            <li class="nav-item">
+                <a class="nav-link">Hello @User.Identity.Name</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
+        </ul>
+    }
+}
+
+else
+{
+    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/Auth/register">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Auth/login">LogIN</a></li>
+    </ul>
+}

@@ -1,0 +1,26 @@
+﻿@model deliverySystem.Models.User
+@{
+    ViewBag.Title = "deliveryman";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>detials</h2>
+
+<h2>@Model.Fname</h2>
+<h2>@Model.Lname</h2>
+<ul>
+    <li>birthdate: @Model.Birthdate</li>
+    <li>departmment: @Model.Category</li>
+    <li>Block: @Model.Block</li>
+    <li>floor: @Model.floor</li>
+
+</ul>
+
+<div class="d-flex flex-column">
+    <a class="btn btn-block bg-primary" href="/Order/orderlist/@Model.Id" style="width:450px; ">
+        view Order
+    </a>
+
+
+
+</div>

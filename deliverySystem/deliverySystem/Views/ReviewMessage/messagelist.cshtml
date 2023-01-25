@@ -1,0 +1,36 @@
+﻿@model IEnumerable<deliverySystem.Models.Message>
+
+@{
+    ViewBag.Title = "messagelist";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Review Messages</h2>
+                        
+@if (User.IsInRole("Client"))
+{
+    <p>
+        @Html.ActionLink("Send Review ", "sendMessage", "ReviewMessage", null, new { @class = "btn btn-primary" })
+    </p>
+}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Subject</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var message in Model)
+        {
+            <tr>
+                <td>@message.Sender.FirstName @message.Sender.LastName</td>
+                <td>@message.Subject</td>
+                <td>@message.Time</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,16 @@
+﻿@model deliverySystem.Models.Item
+@{
+    ViewBag.Title = "details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detials</h2>
+
+<h2>@Model.Name</h2>
+<ul>
+    <li>Price: @Model.Price</li>
+    <li>Category: @Model.Category</li>
+</ul>
+<div>
+    @Html.ActionLink("Back to List", "itemsList")
+</div>

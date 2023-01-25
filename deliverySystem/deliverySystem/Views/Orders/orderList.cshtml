@@ -1,0 +1,103 @@
+﻿@model IEnumerable<deliverySystem.Models.Order>
+
+@{
+    ViewBag.Title = "orderlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("Admin"))
+{
+<h2>Orders</h2>
+}
+else
+{
+<h2>My Orders</h2>
+}
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            @if (User.IsInRole("Admin") || User.IsInRole("DeliveryMan"))
+            {
+                <th>Client</th>
+            }
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Cafeteria State</th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Client"))
+            {
+                <th>Cafeteria DeliveryMan</th>
+            }
+            <th>Printer State</th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Client"))
+            {
+                <th>Printer DeliveryMan</th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            var count = 0;
+            var sum = 0.0;
+            foreach (var item in order.Items)
+            {
+                count += item.Quantity;
+                sum += item.Quantity * item.Item.Price;
+            }
+
+            <tr>
+                @if (User.IsInRole("Admin") || User.IsInRole("DeliveryMan"))
+                {
+                    <td>@order.User.FirstName @order.User.LastName</td>
+                }
+                <td>@order.DateTime</td>
+                <td>@count</td>
+                <td>@sum</td>
+                <td>@order.CafeteriaState</td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Client"))
+                {
+                    if (order.CafeteriaDeliveryMan != null)
+                    {
+                        <td>@order.CafeteriaDeliveryMan.FirstName @order.CafeteriaDeliveryMan.LastName</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+                <td>@order.PrinterState</td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Client"))
+                {
+                    if (order.PrinterDeliveryMan != null)
+                    {
+                        <td>@order.PrinterDeliveryMan.FirstName @order.PrinterDeliveryMan.LastName</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = order.Id })
+                    @if (!HttpContext.Current.User.IsInRole("Client"))
+                    {
+                        @Html.ActionLink(" | Close Order", "CloseOrder", new { id = order.Id })
+                    }
+                    else
+                    {
+                        if ((order.CafeteriaState == deliverySystem.Models.OrderState.Waiting ||
+                                order.CafeteriaState == deliverySystem.Models.OrderState.NoOrder) &&
+                                (order.PrinterState == deliverySystem.Models.OrderState.Waiting ||
+                                order.PrinterState == deliverySystem.Models.OrderState.NoOrder))
+                        {
+                            @Html.ActionLink(" | Delete", "Delete", new { id = order.Id })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

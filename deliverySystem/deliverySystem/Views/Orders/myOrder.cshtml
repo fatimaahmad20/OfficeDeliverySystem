@@ -1,0 +1,58 @@
+﻿@model IEnumerable<deliverySystem.Models.OrderItem>
+
+@{
+    ViewBag.Title = "Myorder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Order</h2>
+
+@Html.ActionLink("Checkout", "Checkout", "Orders", new { @class = "btn btn-primary" })
+
+<h2></h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Remove</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderItem in Model)
+        {
+            <tr>
+                <td>@orderItem.Item.Name</td>
+                <td>@orderItem.Item.Category</td>
+                <td>@orderItem.Quantity</td>
+                <td>@orderItem.Item.Price</td>
+                <td>@(orderItem.Item.Price * orderItem.Quantity)</td>
+                <td>@Html.ActionLink("Remove", "Remove", "Orders", new { @itemId = orderItem.Item.Id }, new { @class = "btn btn-danger" })</td>
+            </tr>
+        }
+    </tbody>
+
+
+    @{var sum = 0.0;}
+
+    @foreach (var item in Model)
+    {
+        sum += item.Item.Price;
+    }
+
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Total</b></td>
+            <td>@sum</td>
+        </tr>
+    </tfoot>
+
+</table>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<deliverySystem.Models.Item>
+
+@{
+    ViewBag.Title = "Make Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Make Order</h2>
+
+<h2></h2>
+
+<div class="row col-md-12">
+    <div class="col-md-2">
+        <div>
+            @Html.Label("Select Category")
+        </div>
+        <div class="list-group list-group-flush">                
+            @Html.ActionLink("All", "makeOrder", new { @category = deliverySystem.Models.CategoryFilter.All }, new { @class= "list-group-item list-group-item-action bg-light" })
+            @Html.ActionLink("Cafeteria", "makeOrder", new { @category = deliverySystem.Models.CategoryFilter.Cafeteria }, new { @class= "list-group-item list-group-item-action bg-light" })
+            @Html.ActionLink("Printer", "makeOrder", new { @category = deliverySystem.Models.CategoryFilter.Printer }, new { @class= "list-group-item list-group-item-action bg-light" })
+        </div>
+
+    </div>
+
+    <div class="col-md-10">
+
+        @for (var i = 0; i < Model.Count(); i += 2)
+        {
+            var j = i + 1;
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <img src="~/UploadedFiles/@Model.ElementAt(i).File" alt="Image" width="308" />
+                    </div>
+                    <div class="row well">
+                        <div class="col-sm-2">
+                            <div class="row">
+                                @Html.Hidden("Id", Model.ElementAt(i).Id)
+                                @Html.Label(Model.ElementAt(i).Name.ToString())
+                            </div>
+                            <div class="row">
+                                @Html.Label(Model.ElementAt(i).Price.ToString())
+                            </div>
+                        </div>
+                        <div class="col-sm-5"></div>
+                        <div class="col-sm-2 float-right">
+                            <br />
+                            @Html.ActionLink("Add To Cart", "addToCart", new { itemId = Model.ElementAt(i).Id }, new { @class = "btn btn-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                @if (j < Model.Count())
+                {
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <img src="~/UploadedFiles/@Model.ElementAt(j).File" alt="Image" width="308" />
+                        </div>
+                        <div class="row well">
+                            <div class="col-sm-2">
+                                <div class="row">
+                                    @Html.Hidden("Id", Model.ElementAt(j).Id)
+                                    @Html.Label(Model.ElementAt(j).Name.ToString())
+                                </div>
+                                <div class="row">
+                                    @Html.Label(Model.ElementAt(j).Price.ToString())
+                                </div>
+                            </div>
+                            <div class="col-sm-5"></div>
+                            <div class="col-sm-2 float-right">
+                                <br />
+                                @Html.ActionLink("Add To Cart", "addToCart", new { itemId = Model.ElementAt(j).Id }, new { @class = "btn btn-danger" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
+</div>
